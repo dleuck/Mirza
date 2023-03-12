@@ -8,6 +8,11 @@
 import SwiftUI
 import KiCore
 
+/**
+ * A drop in replacement for Color that uses a more intuative 0-100 RGBA color component system.
+ * This makes it much easier to create color variants, schemes, etc. RGBs can be used in View
+ * modifiers such as foregroundColor and background.
+ */
 public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
 
     // TODO: Support creation and access to HSB color components
@@ -35,6 +40,15 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     public let blue: Double
     public let alpha: Double
     
+    /* TODO
+    public var hue: Double { }
+    public var saturation: Double { }
+    public var brightness: Double { }
+    public var lightness: Double { } // maybe
+     
+    public var hex
+    */
+     
     public let name: String
     
     public init(_ red: Double = 0, _ green: Double = 0, _ blue: Double = 0, alpha: Double = 100,
@@ -45,6 +59,17 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
         self.alpha = alpha
         self.name = name
     }
+    
+    /*
+    public init(h: Double = 0, s: Double = 0, b: Double = 0, alpha: Double = 100,
+                name: String = "") {
+        self.red = red
+        self.green = green
+        self.blue = blue
+        self.alpha = alpha
+        self.name = name
+    }
+    */
     
     public init(gray: Double = 50) {
         self.init(gray, gray, gray)
@@ -102,17 +127,6 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     }
     
     public var id: Int { description.hashValue }
-    
-    public static func == (lhs: RGB, rhs: RGB) -> Bool {
-        return lhs.description == rhs.description
-    }
-
-    public func hash(into hasher: inout Hasher) {
-        hasher.combine(red)
-        hasher.combine(green)
-        hasher.combine(blue)
-        hasher.combine(alpha)
-    }
 }
 
 /**
@@ -124,37 +138,43 @@ public func webRGB(_ red: Double = 0, _ green: Double = 0, _ blue: Double = 0,
     return RGB(red / 2.55, green / 2.55, blue / 2.55, alpha: alpha / 2.55)
 }
 
-/**
- * RGB Modifiers
- */
+
+// ---- RGB modifiers for common color settings
+
 
 public struct ForegroundRGB: ViewModifier {
     var rgb: RGB
-    
-    public func body(content: Content) -> some View {
-        content
-            .foregroundColor(rgb.color)
-    }
+    public func body(content: Content) -> some View { content.foregroundColor(rgb.color) }
 }
 
 public extension View {
-    func foregroundColor(_ rgb: RGB) -> some View {
-        modifier(ForegroundRGB(rgb: rgb))
-    }
+    func foregroundColor(_ rgb: RGB) -> some View { modifier(ForegroundRGB(rgb: rgb)) }
 }
 
 public struct BackgroundRGB: ViewModifier {
     var rgb: RGB
-    
-    public func body(content: Content) -> some View {
-        content
-            .background(rgb.color)
-    }
+    public func body(content: Content) -> some View { content.background(rgb.color) }
 }
 
 extension View {
-    public func background(_ rgb: RGB) -> some View {
-        modifier(BackgroundRGB(rgb: rgb))
-    }
+    public func background(_ rgb: RGB) -> some View { modifier(BackgroundRGB(rgb: rgb)) }
+}
+
+public struct TintRGB: ViewModifier {
+    var rgb: RGB
+    public func body(content: Content) -> some View { content.tint(rgb.color) }
+}
+
+extension View {
+    public func tint(_ rgb: RGB) -> some View { modifier(TintRGB(rgb: rgb)) }
+}
+
+public struct AccentRGB: ViewModifier {
+    var rgb: RGB
+    public func body(content: Content) -> some View { content.accentColor(rgb.color) }
+}
+
+extension View {
+    public func accentColor(_ rgb: RGB) -> some View { modifier(AccentRGB(rgb: rgb)) }
 }
 
