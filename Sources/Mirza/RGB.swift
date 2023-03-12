@@ -114,7 +114,7 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
             between(red, other.red, percent: percent),
             between(green, other.green, percent: percent),
             between(blue, other.blue, percent: percent),
-            alpha: between(blue, other.blue, percent: percent)
+            alpha: between(alpha, other.alpha, percent: percent)
         )
     }
     
