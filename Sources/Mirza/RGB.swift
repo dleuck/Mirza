@@ -126,32 +126,32 @@ public func webRGB(_ red: Double = 0, _ green: Double = 0, _ blue: Double = 0,
  * RGB Modifiers
  */
 
-struct ForegroundRGB: ViewModifier {
+public struct ForegroundRGB: ViewModifier {
     var rgb: RGB
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .foregroundColor(rgb.color)
     }
 }
 
-extension View {
+public extension View {
     func foregroundColor(_ rgb: RGB) -> some View {
         modifier(ForegroundRGB(rgb: rgb))
     }
 }
 
-struct BackgroundRGB: ViewModifier {
+public struct BackgroundRGB: ViewModifier {
     var rgb: RGB
     
-    func body(content: Content) -> some View {
+    public func body(content: Content) -> some View {
         content
             .background(rgb.color)
     }
 }
 
 extension View {
-    func background(_ rgb: RGB) -> some View {
+    public func background(_ rgb: RGB) -> some View {
         modifier(BackgroundRGB(rgb: rgb))
     }
 }
