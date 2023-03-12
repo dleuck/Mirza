@@ -16,7 +16,7 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     public static let percentRange = 0.0...1.0
     public static let modRange = -100.0...100.0
     
-    public static let clear = RGB(0, 0, 0, alpha: 0)
+    public static let clear = RGB(100, 100, 100, alpha: 0)
     public static let white = RGB(100, 100, 100)
     public static let black = RGB(0, 0, 0)
     
@@ -27,6 +27,8 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     public static let yellow = RGB(100, 100, 0)
     public static let orange = RGB(100, 50, 0)
     public static let purple = RGB(50, 0, 50)
+    
+    public static let aqua = RGB(0, 50, 50)
     
     public let red: Double
     public let green: Double
