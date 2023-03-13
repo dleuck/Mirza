@@ -9,9 +9,10 @@ import SwiftUI
 import KiCore
 
 /**
- * A drop in replacement for Color that uses a more intuative 0-100 RGBA color component system.
+ * RGB is a replacement for Color that uses a more intuative 0 - 100 RGBA color component system.
  * This makes it much easier to create color variants, schemes, etc. RGBs can be used in View
- * modifiers such as foregroundColor and background.
+ * modifiers such as foregroundColor and background. You can use them to generate an array of
+ * lighter and darker variants and group them in Palettes (color schemes).
  */
 public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
 
