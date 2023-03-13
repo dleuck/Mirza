@@ -127,6 +127,17 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     }
     
     public var id: Int { description.hashValue }
+    
+    // standard variations
+    
+    public var pastel: RGB { return lightness(0.92) }
+    public var lightest: RGB { return lightness(0.75) }
+    public var lighter: RGB { return lightness(0.5) }
+    public var light: RGB { return lightness(0.25) }
+    
+    public var darkest: RGB { return lightness(-0.75) }
+    public var darker: RGB { return lightness(-0.5) }
+    public var dark: RGB { return lightness(-0.25) }
 }
 
 /**
