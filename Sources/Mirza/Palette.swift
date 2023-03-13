@@ -12,7 +12,12 @@ public enum ColorScheme {
     case tetradic
 }
 
-public struct Palette: Codable, CustomStringConvertible {
+/**
+ * A palette of colors (color scheme)
+ */
+public struct Palette: Codable, CustomStringConvertible, Identifiable, Hashable, Equatable {
+    
+    public var id: String { name }
     
     // TODO: Add standard named variants - pastel, veryLight, light, base, dark, varyDark
     
@@ -49,7 +54,7 @@ public struct Palette: Codable, CustomStringConvertible {
     )
 
     public init(name: String, _ primary: RGB, _ secondary: RGB, _ tertiary: RGB,
-                _ quaternary: RGB? = nil, danger: RGB = webRGB(193, 62, 80)) {
+                _ quaternary: RGB? = nil, danger: RGB = RGB(80, 10, 10)) {
         
         self.name = name
         
@@ -60,31 +65,33 @@ public struct Palette: Codable, CustomStringConvertible {
         self.danger = danger
     }
     
+    /// Get all built-in palettes
     public static func getPalettes() -> [Palette] {
         return [fun, nature, trafficLight, rainbow, social, nouveau]
     }
 
-    public func getScheme() -> ColorScheme {
+    /// Get all the scheme type, currently either triadic or tetradic
+    public func getSchemeType() -> ColorScheme {
         return tertiary == quaternary ? .triadic : .tetradic
     }
     
     public var rgbs: [RGB] {
-        return getScheme() == .triadic
+        return getSchemeType() == .triadic
             ? [primary, secondary, tertiary]
             : [primary, secondary, tertiary, quaternary]
     }
     
     public var colors: [Color] {
-        return getScheme() == .triadic
-            ? [primary.color, secondary.color, tertiary.color]
-            : [primary.color, secondary.color, tertiary.color, quaternary.color]
+        return getSchemeType() == .triadic
+        ? [primary.color, secondary.color, tertiary.color, danger.color]
+        : [primary.color, secondary.color, tertiary.color, quaternary.color, danger.color]
     }
     
     public var description: String {
-        return getScheme() == .triadic
-            ? "\(name) - primary:\(primary), secondary:\(secondary), tertiary:\(tertiary)"
+        return getSchemeType() == .triadic
+            ? "\(name) - primary:\(primary), secondary:\(secondary), tertiary:\(tertiary), danger:\(danger)"
             : "\(name) - primary:\(primary), secondary:\(secondary), tertiary:\(tertiary) " +
-              "quaternary:\(quaternary)"
+              "quaternary:\(quaternary), danger:\(danger)"
     }
 }
 
