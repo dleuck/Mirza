@@ -126,6 +126,15 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
         return (name.isEmpty) ? colorSpec : "\(name) \(colorSpec)"
     }
     
+    public func getRGBVariants() -> [RGB] {
+        [pastel, lightest, lighter, light, self, dark, darker, darkest]
+    }
+    
+    public func getColorVariants() -> [Color] {
+        [pastel.color, lightest.color, lighter.color, light.color, color, dark.color,
+         darker.color, darkest.color]
+    }
+    
     public var id: Int { description.hashValue }
     
     // standard variations
