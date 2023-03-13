@@ -139,7 +139,7 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     
     // standard variations
     
-    public var pastel: RGB { return lightness(0.92) }
+    public var pastel: RGB { return lightness(0.9) }
     public var lightest: RGB { return lightness(0.75) }
     public var lighter: RGB { return lightness(0.5) }
     public var light: RGB { return lightness(0.25) }
