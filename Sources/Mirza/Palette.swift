@@ -77,8 +77,8 @@ public struct Palette: Codable, CustomStringConvertible, Identifiable, Hashable,
     
     public var rgbs: [RGB] {
         return getSchemeType() == .triadic
-            ? [primary, secondary, tertiary]
-            : [primary, secondary, tertiary, quaternary]
+            ? [primary, secondary, tertiary, danger]
+            : [primary, secondary, tertiary, quaternary, danger]
     }
     
     public var colors: [Color] {
