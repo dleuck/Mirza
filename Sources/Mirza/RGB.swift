@@ -228,6 +228,14 @@ public func webRGB(_ red: Double = 0, _ green: Double = 0, _ blue: Double = 0,
 
 // ---- RGB modifiers for common color settings
 
+public struct FillRGB: ViewModifier {
+    var rgb: RGB
+    public func body(content: Content) -> some View { content.foregroundColor(rgb.color) }
+}
+
+public extension View {
+    func fill(_ rgb: RGB) -> some View { modifier(FillRGB(rgb: rgb)) }
+}
 
 public struct ForegroundRGB: ViewModifier {
     var rgb: RGB
