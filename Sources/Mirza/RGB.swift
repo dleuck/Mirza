@@ -52,83 +52,19 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
         self.name = name
     }
     
-    /*
-    public init(h: Double = 0, s: Double = 0, b: Double = 0, alpha: Double = 100,
-                name: String = "") {
-        self.red = red
-        self.green = green
-        self.blue = blue
-        self.alpha = alpha
-        self.name = name
-    }
-    */
-    
     public init(gray: Double = 50, alpha: Double = 100) {
         self.init(gray, gray, gray)
     }
     
-    public func brightness(_ mod: Double) -> RGB {
-        RGB(
-            (red * mod).clamp(RGB.range),
-            (green * mod).clamp(RGB.range),
-            (blue * mod).clamp(RGB.range),
-            alpha: alpha
-        )
-    }
-    
-    /**
-     * 0 to 1.0 for lightening, 0 to -1.- for darkening
-     */
-    public func lightness(_ mod: Double) -> RGB {
-        let modifier = mod.clamp(RGB.modRange)
+    /// Creates a color from a 6-digit hexadecimal color code.
+    public init(hexadecimal6: Int) {
+        let red = Double((hexadecimal6 & 0xFF0000) >> 16) / 2.55
+        let green = Double((hexadecimal6 & 0x00FF00) >> 8) / 2.55
+        let blue = Double(hexadecimal6 & 0x0000FF) / 2.55
         
-        if modifier == 0 {
-            return self
-        }
-        
-        return mix(modifier > 0 ? RGB.white : RGB.black, percent: abs(modifier))
+        self.init(red, green, blue)
     }
     
-    // TODO - Move to one param that is calculated for brightness and lightness
-    public func smartLight(modBrightness: Double, modLightness: Double, percent: Double = 0.85)
-        -> RGB {
-            
-        let brightColor = brightness(modBrightness)
-        let lightnessColor = lightness(modLightness)
-        return brightColor.mix(lightnessColor, percent: percent)
-    }
-
-    /**
-     * Blend in a specified percent (0.0 - 1.0) of the other RGB.
-     */
-    public func mix(_ other: RGB, percent: Double = 0.5) -> RGB {
-        return RGB(
-            between(red, other.red, percent: percent),
-            between(green, other.green, percent: percent),
-            between(blue, other.blue, percent: percent),
-            alpha: between(alpha, other.alpha, percent: percent)
-        )
-    }
-    
-    public var color: Color { Color(red: red / 100.0, green: green / 100.0, blue: blue / 100.0,
-                                    opacity: alpha / 100.0) }
-    
-    public var description: String {
-        let colorSpec = "r:\(red), g:\(green), b:\(blue)\(alpha == 1 ? "" : ", alpha:\(alpha)")"
-        return (name.isEmpty) ? colorSpec : "\(name) \(colorSpec)"
-    }
-    
-    public func getRGBVariants() -> [RGB] {
-        [pastel, lightest, lighter, light, self, dark, darker, darkest]
-    }
-    
-    public func getColorVariants() -> [Color] {
-        [pastel.color, lightest.color, lighter.color, light.color, color, dark.color,
-         darker.color, darkest.color]
-    }
-    
-    public var id: Int { description.hashValue }
-        
     /// Create an RGB from a hex string, with or without alpha
     ///
     /// - Parameter hexadecimal: A hexadecimal representation of the color.
@@ -207,16 +143,71 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
         }
     }
     
-    /// Creates a color from a 6-digit hexadecimal color code.
-    public init(hexadecimal6: Int) {
-        let red = Double((hexadecimal6 & 0xFF0000) >> 16) / 2.55
-        let green = Double((hexadecimal6 & 0x00FF00) >> 8) / 2.55
-        let blue = Double(hexadecimal6 & 0x0000FF) / 2.55
-        
-        self.init(red, green, blue)
+    public func brightness(_ mod: Double) -> RGB {
+        RGB(
+            (red * mod).clamp(RGB.range),
+            (green * mod).clamp(RGB.range),
+            (blue * mod).clamp(RGB.range),
+            alpha: alpha
+        )
     }
     
+    /**
+     * 0 to 1.0 for lightening, 0 to -1.- for darkening
+     */
+    public func lightness(_ mod: Double) -> RGB {
+        let modifier = mod.clamp(RGB.modRange)
+        
+        if modifier == 0 {
+            return self
+        }
+        
+        return mix(modifier > 0 ? RGB.white : RGB.black, percent: abs(modifier))
+    }
     
+    // TODO - Move to one param that is calculated for brightness and lightness
+    public func smartLight(modBrightness: Double, modLightness: Double, percent: Double = 0.85)
+        -> RGB {
+            
+        let brightColor = brightness(modBrightness)
+        let lightnessColor = lightness(modLightness)
+        return brightColor.mix(lightnessColor, percent: percent)
+    }
+
+    /**
+     * Blend in a specified percent (0.0 - 1.0) of the other RGB.
+     */
+    public func mix(_ other: RGB, percent: Double = 0.5) -> RGB {
+        return RGB(
+            between(red, other.red, percent: percent),
+            between(green, other.green, percent: percent),
+            between(blue, other.blue, percent: percent),
+            alpha: between(alpha, other.alpha, percent: percent)
+        )
+    }
+    
+    public var color: Color { Color(red: red / 100.0, green: green / 100.0, blue: blue / 100.0,
+                                    opacity: alpha / 100.0) }
+    
+    public var description: String {
+        let colorSpec = "r:\(red), g:\(green), b:\(blue)\(alpha == 1 ? "" : ", alpha:\(alpha)")"
+        return (name.isEmpty) ? colorSpec : "\(name) \(colorSpec)"
+    }
+    
+    public func getRGBVariants() -> [RGB] {
+        [pastel, lightest, lighter, light, self, dark, darker, darkest]
+    }
+    
+    public func getColorVariants() -> [Color] {
+        [pastel.color, lightest.color, lighter.color, light.color, color, dark.color,
+         darker.color, darkest.color]
+    }
+    
+    // TODO: Implement
+    // public func getHexString() { }
+    
+    public var id: Int { description.hashValue }
+
     // standard variations
     
     public var pastel: RGB { return lightness(0.9) }
@@ -224,9 +215,9 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     public var lighter: RGB { return lightness(0.5) }
     public var light: RGB { return lightness(0.25) }
     
-    public var darkest: RGB { return lightness(-0.75) }
     public var darker: RGB { return lightness(-0.5) }
     public var dark: RGB { return lightness(-0.25) }
+    public var darkest: RGB { return lightness(-0.75) }
 }
 
 /**
