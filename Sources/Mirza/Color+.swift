@@ -11,15 +11,26 @@ import SwiftUI
 import KiCore
 
 public extension Color {
+
+    /**
+     * Some SwiftUI colors don't provide color components. In these cased the components array
+     * will be empty.
+     */
     var components: [Double] {
-        let comps = cgColor!.components!
         var dcomps = [Double]()
-        for c in comps {
-            let dvalue: Double = c
-            dcomps.append((dvalue).rounded(places: 2) * 100.0)
+        if cgColor == nil || cgColor!.components == nil {
+            return dcomps
+        } else {
+            let comps = cgColor!.components!
+            
+            for c in comps {
+                let dvalue: Double = c
+                dcomps.append(dvalue * 100.0)
+                // dcomps.append((dvalue).rounded(places: 2) * 100.0)
+            }
+            
+            return dcomps
         }
-        
-        return dcomps
     }
 }
 

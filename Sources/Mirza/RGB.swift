@@ -18,27 +18,18 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
 
     // TODO: Support creation and access to HSB color components
     
-    public static let range = 0.0...100.0
-    public static let percentRange = 0.0...1.0
-    public static let modRange = -100.0...100.0
+    internal static let range = 0.0...100.0, percentRange = 0.0...1.0, modRange = -100.0...100.0
     
-    public static let clear = RGB(100, 100, 100, alpha: 0)
-    public static let white = RGB(100, 100, 100)
-    public static let black = RGB(0, 0, 0)
+    public static let clear = RGB(100, 100, 100, alpha: 0), white = RGB(100, 100, 100),
+                      black = RGB(0, 0, 0)
     
-    public static let red = RGB(100, 0, 0)
-    public static let green = RGB(0, 100, 0)
-    public static let blue = RGB(0, 0, 100)
+    public static let red = RGB(100, 0, 0), green = RGB(0, 100, 0), blue = RGB(0, 0, 100)
     
-    public static let yellow = RGB(100, 100, 0)
-    public static let orange = RGB(100, 50, 0)
-    public static let purple = RGB(50, 0, 50)
+    public static let yellow = RGB(100, 100, 0), orange = RGB(100, 50, 0), purple = RGB(50, 0, 50)
     
     public static let aqua = RGB(0, 50, 50)
     
-    public let red: Double
-    public let green: Double
-    public let blue: Double
+    public let red, green, blue: Double
     public let alpha: Double
     
     /* TODO
@@ -72,7 +63,7 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     }
     */
     
-    public init(gray: Double = 50) {
+    public init(gray: Double = 50, alpha: Double = 100) {
         self.init(gray, gray, gray)
     }
     
@@ -137,6 +128,94 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     }
     
     public var id: Int { description.hashValue }
+        
+    /// Create an RGB from a hex string, with or without alpha
+    ///
+    /// - Parameter hexadecimal: A hexadecimal representation of the color.
+    /// - Returns: `RGB` from a hex string or `nil` if the code is malformed.
+    public init!(hex string: String) {
+        var string: String = string.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+        
+        if string.hasPrefix("#") {
+            _ = string.removeFirst()
+        }
+        
+        if !string.count.isMultiple(of: 2), let last = string.last {
+            string.append(last)
+        }
+        
+        if string.count > 8 {
+            string = String(string.prefix(8))
+        }
+        
+        let scanner = Scanner(string: string)
+        
+        var color: UInt64 = 0
+        
+        scanner.scanHexInt64(&color)
+        
+        if string.count == 2 {
+            let mask = 0xFF
+            
+            let g = Int(color) & mask
+            
+            let gray = Double(g) / 2.55
+            
+            self.init(gray)
+        } else if string.count == 4 {
+            let mask = 0x00FF
+            
+            let g = Int(color >> 8) & mask
+            let a = Int(color) & mask
+            
+            let gray = Double(g) / 2.55
+            let alpha = Double(a) / 2.55
+            
+            self.init(gray, alpha: alpha)
+        } else if string.count == 6 {
+            let mask = 0x0000FF
+            
+            let r = Int(color >> 16) & mask
+            let g = Int(color >> 8) & mask
+            let b = Int(color) & mask
+            
+            print("As Int - r:\(r), g:\(g), b:\(b),")
+            
+            let red = Double(r) / 2.55
+            let green = Double(g) / 2.55
+            let blue = Double(b) / 2.55
+            
+            print("As Double - r:\(red), g:\(green), b:\(blue),")
+            
+            self.init(red, green, blue, alpha: 100)
+        } else if string.count == 8 {
+            let mask = 0x000000FF
+            
+            let r = Int(color >> 24) & mask
+            let g = Int(color >> 16) & mask
+            let b = Int(color >> 8) & mask
+            let a = Int(color) & mask
+            
+            let red = Double(r) / 2.55
+            let green = Double(g) / 2.55
+            let blue = Double(b) / 2.55
+            let alpha = Double(a) / 2.55
+            
+            self.init(red, green, blue, alpha: alpha)
+        } else {
+            return nil
+        }
+    }
+    
+    /// Creates a color from a 6-digit hexadecimal color code.
+    public init(hexadecimal6: Int) {
+        let red = Double((hexadecimal6 & 0xFF0000) >> 16) / 2.55
+        let green = Double((hexadecimal6 & 0x00FF00) >> 8) / 2.55
+        let blue = Double(hexadecimal6 & 0x0000FF) / 2.55
+        
+        self.init(red, green, blue)
+    }
+    
     
     // standard variations
     

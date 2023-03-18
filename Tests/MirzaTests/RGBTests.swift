@@ -17,5 +17,11 @@ final class RGBTests: XCTestCase {
         XCTAssertEqual(RGB.red.mix(RGB.red), RGB.blue)
         XCTAssertEqual(RGB.blue.mix(RGB.blue, percent: 0.5), RGB.blue)
     }
+    
+    func testFromHexString() throws {
+        XCTAssertEqual(RGB(hex:"FFFFFF"), RGB.white)
+        XCTAssertEqual(RGB(hex:"FFFF00"), RGB(100,100,0))
+        XCTAssertEqual(RGB(hex:"00FF01").blue.rounded(places: 1), 0.4)
+    }
 }
 
