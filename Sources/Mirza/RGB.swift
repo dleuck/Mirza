@@ -115,13 +115,9 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
             let g = Int(color >> 8) & mask
             let b = Int(color) & mask
             
-            print("As Int - r:\(r), g:\(g), b:\(b),")
-            
             let red = Double(r) / 2.55
             let green = Double(g) / 2.55
             let blue = Double(b) / 2.55
-            
-            print("As Double - r:\(red), g:\(green), b:\(blue),")
             
             self.init(red, green, blue, alpha: 100)
         } else if string.count == 8 {
