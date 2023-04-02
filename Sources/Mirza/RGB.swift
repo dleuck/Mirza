@@ -9,10 +9,13 @@ import SwiftUI
 import KiCore
 
 /**
- * RGB is a replacement for Color that uses a more intuative 0 - 100 RGBA color component system.
- * This makes it much easier to create color variants, schemes, etc. RGBs can be used in View
- * modifiers such as foregroundColor and background. You can use them to generate an array of
- * lighter and darker variants and group them in Palettes (color schemes).
+ * `RGB` is a replacement for `Color` that uses a more intuative 0 - 100 RGBA color component
+ * system. Because the color components are `Double`s, they can represent the same number of colors
+ * as the `Color` class.
+ *
+ * This makes it much easier to create color variants, schemes, etc. `RGB`s can be used in `View`
+ * modifiers such as `foregroundColor`, `background` and `tint`. You can use them to generate an
+ * array of lighter and darker variants and group them in `Palettes` (color schemes).
  */
 public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
 
@@ -263,4 +266,3 @@ public struct AccentRGB: ViewModifier {
 extension View {
     public func accentColor(_ rgb: RGB) -> some View { modifier(AccentRGB(rgb: rgb)) }
 }
-
