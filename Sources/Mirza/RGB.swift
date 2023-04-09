@@ -267,16 +267,16 @@ extension View {
     public func accentColor(_ rgb: RGB) -> some View { modifier(AccentRGB(rgb: rgb)) }
 }
 
-public struct StrokeRGB: ViewModifier {
+public struct StrokeBorderRGB: ViewModifier {
     var rgb: RGB
     var lineWidth: Double
     public func body(content: Content) -> some View {
-        content.stroke(rgb, lineWidth: lineWidth)
+        content.strokeBorder(rgb, lineWidth: lineWidth)
     }
 }
 
 extension View {
-    public func stroke(_ rgb: RGB, lineWidth: Double) -> some View {
-        modifier(StrokeRGB(rgb: rgb, lineWidth: lineWidth))
+    public func strokeBorder(_ rgb: RGB, lineWidth: Double) -> some View {
+        modifier(StrokeBorderRGB(rgb: rgb, lineWidth: lineWidth))
     }
 }
