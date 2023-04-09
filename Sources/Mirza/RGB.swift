@@ -222,7 +222,7 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     public var dark: RGB { return lightness(-0.25) }
     public var darkest: RGB { return lightness(-0.75) }
     
-    static func random() -> RGB {
+    public static func random() -> RGB {
         let red = Double.random(in: 0.0...100.0)
         let green = Double.random(in: 0.0...100.0)
         let blue = Double.random(in: 0.0...100.0)
