@@ -271,7 +271,7 @@ public struct StrokeRGB: ViewModifier {
     var rgb: RGB
     var lineWidth: Double
     public func body(content: Content) -> some View {
-        content.stroke(.purple, lineWidth: 5)
+        content.stroke(rgb, lineWidth: lineWidth)
     }
 }
 
