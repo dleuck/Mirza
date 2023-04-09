@@ -68,10 +68,6 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
         self.init(red, green, blue)
     }
     
-    public init(_ rgb: RGB, alpha: Double = 100) {
-        self.init(rgb.red, rgb.green, rgb.blue, alpha: alpha)
-    }
-    
     /// Create an RGB from a hex string, with or without alpha
     ///
     /// - Parameter hexadecimal: A hexadecimal representation of the color.
@@ -144,6 +140,11 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
         } else {
             return nil
         }
+    }
+    
+    /// Returns a new RGB with an ajusted alpha value.
+    public func withAlpha(_ alpha:Double) -> RGB {
+        return RGB(red, green, blue, alpha: alpha)
     }
     
     public func brightness(_ mod: Double) -> RGB {
