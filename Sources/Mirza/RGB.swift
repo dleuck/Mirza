@@ -266,3 +266,17 @@ public struct AccentRGB: ViewModifier {
 extension View {
     public func accentColor(_ rgb: RGB) -> some View { modifier(AccentRGB(rgb: rgb)) }
 }
+
+public struct StrokeRGB: ViewModifier {
+    var rgb: RGB
+    var lineWidth: Double
+    public func body(content: Content) -> some View {
+        content.stroke(.purple, lineWidth: 5)
+    }
+}
+
+extension View {
+    public func stroke(_ rgb: RGB, lineWidth: Double) -> some View {
+        modifier(StrokeRGB(rgb: rgb, lineWidth: lineWidth))
+    }
+}
