@@ -68,6 +68,10 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
         self.init(red, green, blue)
     }
     
+    public init(_ rgb: RGB, alpha: Double = 100) {
+        self.init(rgb.red, rgb.green, rgb.blue, alpha: alpha)
+    }
+    
     /// Create an RGB from a hex string, with or without alpha
     ///
     /// - Parameter hexadecimal: A hexadecimal representation of the color.
@@ -152,7 +156,7 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     }
     
     /**
-     * 0 to 1.0 for lightening, 0 to -1.- for darkening
+     * 0 to 1.0 for lightening, -1 to 0 for darkening
      */
     public func lightness(_ mod: Double) -> RGB {
         let modifier = mod.clamp(RGB.modRange)
@@ -217,6 +221,13 @@ public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
     public var darker: RGB { return lightness(-0.5) }
     public var dark: RGB { return lightness(-0.25) }
     public var darkest: RGB { return lightness(-0.75) }
+    
+    static func random() -> RGB {
+        let red = Double.random(in: 0.0...100.0)
+        let green = Double.random(in: 0.0...100.0)
+        let blue = Double.random(in: 0.0...100.0)
+        return RGB(red, green, blue)
+    }
 }
 
 /**
