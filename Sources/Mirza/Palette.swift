@@ -50,7 +50,7 @@ public struct Palette: Codable, CustomStringConvertible, Identifiable, Hashable,
     )
     
     public static let indri = Palette(
-        name: "social", webRGB(12, 198, 171), webRGB(105, 83, 213), webRGB(190, 157, 0),
+        name: "indri", webRGB(12, 198, 171), webRGB(105, 83, 213), webRGB(190, 157, 0),
             webRGB(214, 101, 4)
     )
     
