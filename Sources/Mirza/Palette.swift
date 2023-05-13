@@ -73,7 +73,7 @@ public struct Palette: Codable, CustomStringConvertible, Identifiable, Hashable,
     
     /// Get all built-in palettes
     public static func getPalettes() -> [Palette] {
-        return [fun, nature, trafficLight, rainbow, social, nouveau]
+        return [fun, nature, trafficLight, rainbow, social, indri, nouveau]
     }
 
     /// Get all the scheme type, currently either triadic or tetradic
