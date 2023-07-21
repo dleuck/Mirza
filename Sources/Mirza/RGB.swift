@@ -20,6 +20,7 @@ import KiCore
 public struct RGB: Hashable, Codable, Equatable, CustomStringConvertible {
 
     // TODO: Support creation and access to HSB color components
+    // TODO: Support creation and access to HSL color components
     
     internal static let range = 0.0...100.0, percentRange = 0.0...1.0, modRange = -100.0...100.0
     
