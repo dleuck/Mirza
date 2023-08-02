@@ -24,7 +24,7 @@ public extension Color {
             let comps = cgColor!.components!
             
             for c in comps {
-                let dvalue: Double = c
+                let dvalue = c
                 dcomps.append(dvalue * 1.0)
                 // dcomps.append((dvalue).rounded(places: 2) * 100.0)
             }
@@ -40,7 +40,7 @@ public extension Color {
                      0...1 ~= alpha, "HSL component out of range 0 - 1")
         
         //From HSL TO HSB ---------
-        var newSaturation: Double = 0.0
+        var newSaturation = 0.0
         
         let b = l + s * min(l, 1-l)
         
